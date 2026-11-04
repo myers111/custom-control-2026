@@ -1,0 +1,37 @@
+
+header {
+    display: flex;     
+    align-items: center;       
+    height: 100px;
+    width: 100%;
+    /* Optional padding so the outer images don't touch the absolute screen edge */
+    padding: 0 20px; 
+    box-sizing: border-box;
+}
+
+header div {
+    display: flex;     
+    align-items: center;       
+    height: 100%;      
+}
+
+/* Keeps images proportional */
+header div img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+header div li {
+	display: inline-block;
+	list-style-type: none;
+}
+
+header div li a {
+	padding: 0 .5em 0 .75em; /* less .25em on right due to inline-block spacing */
+	color: #7f7f7f;
+    text-decoration: none;
+}
+
+header div li + li:before {
+	content: "|";
+}
