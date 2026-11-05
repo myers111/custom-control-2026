@@ -9,10 +9,31 @@ header {
     box-sizing: border-box;
 }
 
+/* Shared layout style for all three container divs */
 header div {
     display: flex;     
     align-items: center;       
     height: 100%;      
+}
+
+/* Left box expands and pushes its contents to the far left */
+header div.left-box {
+    flex-grow: 1;
+    justify-content: flex-start; 
+}
+
+/* Middle box stays strictly sized to its image and stays centered */
+header div.center-box {
+    flex-grow: 0;      
+    flex-shrink: 0;    
+    justify-content: center;
+    padding: 0 20px;   
+}
+
+/* Right box expands and pushes its contents to the far right */
+header div.right-box {
+    flex-grow: 1;
+    justify-content: flex-end; 
 }
 
 /* Keeps images proportional */
