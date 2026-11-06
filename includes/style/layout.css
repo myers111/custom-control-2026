@@ -1,12 +1,13 @@
-
 header {
+    float: none;
     display: flex;     
     align-items: center;       
-    height: 100px;
+    height: 80px;
     width: 100%;
     /* Optional padding so the outer images don't touch the absolute screen edge */
     padding: 0 20px; 
     box-sizing: border-box;
+    background-color: hsl(0, 69%, 30%);
 }
 
 /* Shared layout style for all three container divs */
@@ -19,7 +20,7 @@ header div {
 /* Left box expands and pushes its contents to the far left */
 header div.left-box {
     flex-grow: 1;
-    justify-content: flex-start; 
+    justify-content: flex-start;
 }
 
 /* Middle box stays strictly sized to its image and stays centered */

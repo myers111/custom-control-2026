@@ -20,15 +20,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 get_header();
 
 if ( have_posts() ) :
-
+    
 	while ( have_posts() ) : the_post();
 
-        if ( has_post_thumbnail() ) { ?>
+        wp_nonce_field('phrase_nonce_action', 'phrase_nonce');
+        $phrase = get_post_meta(get_the_ID(), '_phrase', true);
 
-            <div id="banner" class="banner" style="background-image: url('<?php echo get_the_post_thumbnail_url() ?>')">
-                aaaaaaaaaaaaaaaa
-            </div><!-- #banner --><?php
-        } ?>
+        // Fallback to the page title if no phrase is set
+        
+        if (strlen($phrase) == 0) { $phrase = get_the_title(); } ?>
+
+        <div id="banner" class="banner" style="background-<?php echo has_post_thumbnail() ? "image: url('" . get_the_post_thumbnail_url() : "color: #000000"; ?>"><?php
+            echo $phrase;?>
+        </div><!-- #banner -->
 
         <div id="content" class="content"><?php
 

@@ -21,19 +21,23 @@ function cc_add_meta_box() {
 }
 add_action('add_meta_boxes', 'cc_add_meta_box');
 
-// Render the Meta Box UI (Image preview, button, and hidden field)
+// Render the Meta Box UI
+
 function cc_render_meta_box($post) {
 
     wp_nonce_field('phrase_nonce_action', 'phrase_nonce');
-    $phrase = get_post_meta($post->ID, '_phrase', true);
-/*
-    <div id="phrase-container" style="text-align:center;">
-        <input name="phrase" id="phrase" value="<?php echo esc_attr($phrase); ?>" />
-    </div><?php
-*/}
+    $phrase = get_post_meta($post->ID, '_phrase', true); ?>
+
+    <table>
+        <tr>
+            <td>Phrase</td>
+            <td><input name="phrase" id="phrase" value="<?php echo esc_attr($phrase); ?>" /></td>
+        </tr>
+    </table><?php
+}
 
 // Save the Data when the Page is Saved
-/*
+
 function save_phrase_meta_box($post_id) {
 
     if (!isset($_POST['phrase_nonce']) || !wp_verify_nonce($_POST['phrase_nonce'], 'phrase_nonce_action')) return;
@@ -46,4 +50,3 @@ function save_phrase_meta_box($post_id) {
     }
 }
 add_action('save_post', 'save_phrase_meta_box');
-*/
