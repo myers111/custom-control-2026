@@ -58,7 +58,42 @@ if ( have_posts() ) :
             ),
         );
 
-        $sections_query = new WP_Query( $args ); ?>
+        $sections_query = new WP_Query( $args );
+
+        if ( $sections_query->have_posts() ) : 
+
+            $count = 0;
+
+            echo '<div class="responsive-sections-container">'; // Layout wrapper
+
+            while ( $sections_query->have_posts() ) : $sections_query->the_post();
+
+                $count++;
+
+                $layout_class = ($count % 2 == 0) ? 'is-reversed' : ''; ?>
+
+                <article class="responsive-section-row <?php echo $layout_class; ?>"><?php 
+
+                    if ( has_post_thumbnail() ) : ?>
+                        <div class="section-column section-image"><?php 
+                            the_post_thumbnail('large'); ?>
+                        </div><?php 
+                    endif; ?>
+
+                    <div class="section-column section-text">
+                        <h2><?php the_title(); ?></h2><?php 
+                        the_content(); ?>
+                    </div>
+
+                </article><?php 
+
+            endwhile;
+
+            echo '</div>'; // End layout wrapper
+
+            wp_reset_postdata();
+
+        endif; ?>
 
         </div><!-- #content --> <?php
 

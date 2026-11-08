@@ -10,7 +10,7 @@ function cc_theme_enqueue_styles() {
 
     wp_enqueue_style( 'main-styles', get_stylesheet_uri() );
 
-    //wp_enqueue_style( 'layout', CC_THEME_URI . 'includes/style/layout.css' );
+    wp_enqueue_style( 'layout', CC_THEME_URI . 'includes/style/layout.css' );
     //wp_enqueue_style( 'responsive', CC_THEME_URI . 'includes/style/responsive.css' );
 }
 add_action( 'wp_enqueue_scripts', 'cc_theme_enqueue_styles' );

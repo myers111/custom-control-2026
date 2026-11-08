@@ -7,7 +7,6 @@ header {
     /* Optional padding so the outer images don't touch the absolute screen edge */
     padding: 0 20px; 
     box-sizing: border-box;
-    background-color: hsl(0, 69%, 30%);
 }
 
 /* Shared layout style for all three container divs */
@@ -23,6 +22,12 @@ header div.left-box {
     justify-content: flex-start;
 }
 
+/* Keeps images proportional */
+header div.left-box img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
 /* Middle box stays strictly sized to its image and stays centered */
 header div.center-box {
     flex-grow: 0;      
@@ -34,26 +39,22 @@ header div.center-box {
 /* Right box expands and pushes its contents to the far right */
 header div.right-box {
     flex-grow: 1;
-    justify-content: flex-end; 
+    justify-content: flex-end;
 }
 
-/* Keeps images proportional */
-header div img {
-    max-width: 100%;
-    max-height: 100%;
-}
-
-header div li {
-	display: inline-block;
-	list-style-type: none;
-}
-
-header div li a {
-	padding: 0 .5em 0 .75em; /* less .25em on right due to inline-block spacing */
+header div.right-box span,
+header div.right-box span a {
 	color: #7f7f7f;
+}
+
+header div.right-box span a {
     text-decoration: none;
 }
 
-header div li + li:before {
-	content: "|";
+/* footer */
+div.copyright {
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+    color: #7f7f7f;
 }

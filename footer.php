@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 ?>
+		<div class="copyright">&#169; <?php echo date("Y"); ?>&nbsp;Custom Control Mfr. All Rights Reserved.</div>
 		<?php wp_footer(); ?>
 	</body>
 </html>

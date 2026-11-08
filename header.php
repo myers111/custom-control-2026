@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/images/logo.png" alt="Home" />
 			</a>
 		</div>
-		<div class="left-box">
+		<div class="center-box">
 			<nav class="theme-navigation-wrapper"> <?php
 				if ( has_nav_menu( 'primary-menu' ) ) {
 					wp_nav_menu( array(
@@ -44,8 +44,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				} ?>
 			</nav>
 		</div>
-		<div class="left-box">
-			<span class="phone"><a href="tel:+19137220343">913-722-0343</a></span>
-			<span class="email"><a href="mailto:sales@customcontrolmfr.com">sales@customcontrolmfr.com</a></span>
+		<div class="right-box">
+			<span><a href="tel:+19137220343">913-722-0343</a>&nbsp;|&nbsp;<a href="mailto:sales@customcontrolmfr.com">sales@customcontrolmfr.com</a></span>
 		</div>
 	</header>

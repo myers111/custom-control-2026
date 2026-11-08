@@ -17,19 +17,14 @@ html {
 }
 
 body {
-	background-color: hsl(86, 85%, 36%);
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 18px;
 	line-height: 1.5em;
 }
 
-header {
-    background-color: hsl(0, 69%, 30%);
-}
-
 div.banner {
     width: 100%;
-    min-height: 300px;
+    min-height: 200px;
     color: white;
     font-size: 100px;
     font-weight: bold;
@@ -52,4 +47,10 @@ div.content {
 
 article {
     background-color: white;
+    display: flex;
+    align-items: center; 
+}
+
+div.copyright {
+	border-top: 1px solid #000;
 }
