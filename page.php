@@ -34,9 +34,7 @@ if ( have_posts() ) :
             <span><?php echo $phrase; ?></span>
         </div><!-- #banner -->
 
-        <div id="content" class="content"><?php
-
-        the_content();
+        <div id="content" class="content"><?php the_content(); ?></div><?php
 
         // Target the ID of the page the user is currently visiting
 
@@ -62,21 +60,15 @@ if ( have_posts() ) :
 
         if ( $sections_query->have_posts() ) : 
 
-            $count = 0;
+            echo '<div class="sections-container">'; // Layout wrapper
 
-            echo '<div class="responsive-sections-container">'; // Layout wrapper
+            while ( $sections_query->have_posts() ) : $sections_query->the_post(); ?>
 
-            while ( $sections_query->have_posts() ) : $sections_query->the_post();
-
-                $count++;
-
-                $layout_class = ($count % 2 == 0) ? 'is-reversed' : ''; ?>
-
-                <article class="responsive-section-row <?php echo $layout_class; ?>"><?php 
+                <article class="section-row"><?php 
 
                     if ( has_post_thumbnail() ) : ?>
                         <div class="section-column section-image"><?php 
-                            the_post_thumbnail('large'); ?>
+                            the_post_thumbnail(array(200,200)); ?>
                         </div><?php 
                     endif; ?>
 
@@ -93,9 +85,7 @@ if ( have_posts() ) :
 
             wp_reset_postdata();
 
-        endif; ?>
-
-        </div><!-- #content --> <?php
+        endif;
 
     endwhile;
 

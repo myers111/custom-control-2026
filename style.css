@@ -12,45 +12,4 @@ Text Domain: my-custom-theme
 
 /* Add your custom CSS styling below this line */
 
-html {
-    padding: 0px;
-}
-
-body {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 18px;
-	line-height: 1.5em;
-}
-
-div.banner {
-    width: 100%;
-    min-height: 200px;
-    color: white;
-    font-size: 100px;
-    font-weight: bold;
-    /* ADD THESE THREE LINES to center it perfectly inside the 400px box */
-    display: flex;
-    align-items: center; 
-    justify-content: center; /* Optional: centers text horizontally too */
-}
-
-div.banner span {
-    display: block;
-    line-height: 1; /* Prevents the invisible font-box from spilling out */
-}
-
-div.content {
-	background-color: #f0f0f0;
-    display: flex;
-    align-items: center; 
-}
-
-article {
-    background-color: white;
-    display: flex;
-    align-items: center; 
-}
-
-div.copyright {
-	border-top: 1px solid #000;
-}
+/*  Theme Styles enqued in includes/functions/theme.php*/

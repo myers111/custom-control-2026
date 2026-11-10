@@ -1,0 +1,14 @@
+/* Tablet & Desktop Viewports (768px and up) */
+@media screen and (min-width: 768px) {
+    .section-row {
+        flex-direction: row; /* Converts rows to parallel columns */
+        align-items: center; /* Vertically aligns image and text centers */
+        gap: 50px;
+    }
+
+    /* Assigns equal sizing parameters to both fields */
+    .section-row .section-column {
+        flex: 1;
+        width: 50%;
+    }
+}

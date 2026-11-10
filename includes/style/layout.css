@@ -1,3 +1,5 @@
+/* Header ************************************************************************************************************************************/
+
 header {
     float: none;
     display: flex;     
@@ -47,14 +49,68 @@ header div.right-box span a {
 	color: #7f7f7f;
 }
 
-header div.right-box span a {
-    text-decoration: none;
+/* Banner ************************************************************************************************************************************/
+
+div.banner {
+    width: 100%;
+    min-height: 150px;
+    display: flex;
+    align-items: center; 
+    justify-content: center; /* Centers text horizontally too */
 }
 
-/* footer */
+div.banner span {
+    display: block;
+    line-height: 1; /* Prevents the invisible font-box from spilling out */
+    color: white;
+    font-size: 100px;
+    font-weight: bold;
+}
+
+/* Content ************************************************************************************************************************************/
+
+div.content {
+	background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    padding: 30px 15%;
+}
+
+/* Section ************************************************************************************************************************************/
+
+/* Mobile-First Layout: Stacked Stack */
+.sections-container {
+    padding: 0 15%;
+}
+
+/* Mobile-First Layout: Stacked Stack */
+.section-row {
+    display: flex;
+    flex-direction: column; /* Stacked text and images natively */
+    gap: 24px;
+    padding: 30px 0;
+}
+
+.section-row:not(:first-child) {
+    border-top: 1px solid red;
+}
+
+/* Ensure images scale down perfectly without distortion */
+.section-row .section-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 450px;
+    object-fit: cover;
+    border-radius: 4px; /* Optional: Softens image corners */
+}
+
+/* Footer ************************************************************************************************************************************/
+
 div.copyright {
     text-align: center;
     padding: 10px 0;
     font-size: 14px;
     color: #7f7f7f;
+	border-top: 1px solid #000;
 }
