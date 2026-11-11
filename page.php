@@ -58,25 +58,20 @@ if ( have_posts() ) :
 
         $sections_query = new WP_Query( $args );
 
-        if ( $sections_query->have_posts() ) : 
+        if ( $sections_query->have_posts() ) { 
 
             echo '<div class="sections-container">'; // Layout wrapper
 
             while ( $sections_query->have_posts() ) : $sections_query->the_post(); ?>
 
-                <article class="section-row"><?php 
-
-                    if ( has_post_thumbnail() ) : ?>
-                        <div class="section-column section-image"><?php 
-                            the_post_thumbnail(array(200,200)); ?>
-                        </div><?php 
-                    endif; ?>
-
-                    <div class="section-column section-text">
+                <article class="section-row">
+                    <div class="section-image">
+                        <?php if ( has_post_thumbnail() ) { the_post_thumbnail(array(200,200)); } ?>
+                    </div>
+                    <div class="section-text">
                         <h2><?php the_title(); ?></h2><?php 
                         the_content(); ?>
                     </div>
-
                 </article><?php 
 
             endwhile;
@@ -84,8 +79,7 @@ if ( have_posts() ) :
             echo '</div>'; // End layout wrapper
 
             wp_reset_postdata();
-
-        endif;
+        }
 
     endwhile;
 

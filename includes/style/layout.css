@@ -13,7 +13,7 @@ header {
 
 /* Shared layout style for all three container divs */
 header div {
-    display: flex;     
+    display: flex;
     align-items: center;       
     height: 100%;      
 }
@@ -78,16 +78,12 @@ div.content {
 
 /* Section ************************************************************************************************************************************/
 
-/* Mobile-First Layout: Stacked Stack */
 .sections-container {
     padding: 0 15%;
 }
 
-/* Mobile-First Layout: Stacked Stack */
 .section-row {
     display: flex;
-    flex-direction: column; /* Stacked text and images natively */
-    gap: 24px;
     padding: 30px 0;
 }
 
@@ -95,14 +91,20 @@ div.content {
     border-top: 1px solid red;
 }
 
-/* Ensure images scale down perfectly without distortion */
-.section-row .section-image img {
-    display: block;
-    width: 100%;
-    height: auto;
-    max-height: 450px;
-    object-fit: cover;
-    border-radius: 4px; /* Optional: Softens image corners */
+.section-row div {
+    display: flex;
+}
+
+.section-image {
+    width: 200px;
+    height: 200px;
+    flex-grow: 0;      
+    flex-shrink: 0;    
+}
+
+.section-text {
+    flex-grow: 1;
+    flex-direction: column;
 }
 
 /* Footer ************************************************************************************************************************************/
