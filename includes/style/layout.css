@@ -53,7 +53,6 @@ header div.right-box span a {
 
 div.banner {
     width: 100%;
-    min-height: 150px;
     display: flex;
     align-items: center; 
     justify-content: center; /* Centers text horizontally too */
@@ -72,8 +71,12 @@ div.banner span {
 div.content {
 	background-color: #f0f0f0;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     padding: 30px 15%;
+}
+
+div.content ul {
+	margin: 0 0 20px 20px;
 }
 
 /* Section ************************************************************************************************************************************/
@@ -105,6 +108,10 @@ div.content {
 .section-text {
     flex-grow: 1;
     flex-direction: column;
+}
+
+.section-text {
+    flex-grow: 1;
 }
 
 /* Footer ************************************************************************************************************************************/
