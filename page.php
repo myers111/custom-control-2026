@@ -30,7 +30,7 @@ if ( have_posts() ) :
 
         if (strlen($phrase) == 0) { $phrase = get_the_title(); } ?>
 
-        <div id="banner" class="banner" style="background-<?php echo has_post_thumbnail() ? ("image: url('" . get_the_post_thumbnail_url() . "');height: 400px") : ("color: #000000;height: 150px"); ?>">
+        <div id="banner" class="banner" style="background-<?php echo has_post_thumbnail() ? ("image: url('" . get_the_post_thumbnail_url() . "');height: 500px") : ("color: #000000;height: 150px"); ?>">
             <span><?php echo $phrase; ?></span>
         </div><!-- #banner -->
 

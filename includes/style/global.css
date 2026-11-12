@@ -5,13 +5,14 @@
 }
 
 body {
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: Calibri, Arial, Helvetica, sans-serif;
 	font-size: 18px;
 	line-height: 1.5em;
 }
 
 h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0.5em;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 a {
@@ -44,4 +45,8 @@ h5 {
 
 h6 {
 	font-size: 1.2em;
+}
+
+p {
+	color: #747474;
 }

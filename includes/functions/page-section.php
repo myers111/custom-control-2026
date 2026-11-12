@@ -32,7 +32,7 @@ function cc_create_section_post_type() {
         'rewrite'            => array( 'slug' => 'sections' ),
         'capability_type'    => 'post',
         'has_archive'        => false,
-        'hierarchical'       => false,
+        'hierarchical'       => true, // Allows parent-child relationships
         'menu_position'      => 20,
         'menu_icon'          => 'dashicons-layout', // Layout icon in admin dashboard
         'show_in_rest'       => true, // Enables Gutenberg editor if desired
@@ -122,7 +122,7 @@ function cc_register_page_sections_column( $columns ) {
 
     // This adds the column to the end of the list table array
 
-    $columns['page'] = __( 'Page', 'text-domain' );
+    $columns['parent'] = __( 'Parent', 'text-domain' );
 
     return $columns;
 }
@@ -132,19 +132,24 @@ add_filter( 'manage_page_sections_posts_columns', 'cc_register_page_sections_col
 
 function cc_populate_page_sections_column( $column_name, $post_id ) {
 
-    if ( $column_name === 'page' ) {
+    if ( $column_name === 'parent' ) {
 
         // Retrieve the data you want to display (e.g., custom field data)
-
-        $page_id = get_post_meta( $post_id, '_assigned_page_id', true );
         
+        $parent_id = wp_get_post_parent_id( $post_id );
+
+        if ( !$parent_id ) {
+
+            $parent_id = get_post_meta( $post_id, '_assigned_page_id', true );
+        }
+
         // Echo the data or show a default fallback
 
-        if ( $page_id ) {
+        if ( $parent_id ) {
 
-            $page_title = get_the_title( $page_id );
+            $page_title = get_the_title( $parent_id );
 
-            echo '<a href="' . esc_url( get_edit_post_link( $page_id ) ) . '">' . esc_html( $page_title ) . '</a>';
+            echo '<a href="' . esc_url( get_edit_post_link( $parent_id ) ) . '">' . esc_html( $page_title ) . '</a>';
 
         } else {
 
@@ -160,7 +165,7 @@ function cc_make_page_sections_column_sortable( $sortable_columns ) {
 
     // Left side: Column ID | Right side: Orderby reference key
 
-    $sortable_columns['page'] = 'page';
+    $sortable_columns['parent'] = 'parent';
 
     return $sortable_columns;
 }
@@ -168,7 +173,7 @@ add_filter( 'manage_edit-page_sections_sortable_columns', 'cc_make_page_sections
 
 // Alphabetically sort by the parent's title via an SQL Join on the meta value
 
-function cc_sort_sections_by_assigned_page_title( $query ) {
+function cc_sort_sections_by_parent_title( $query ) {
 
     global $pagenow, $wpdb;
 
@@ -194,7 +199,7 @@ function cc_sort_sections_by_assigned_page_title( $query ) {
         }
     }
 }
-add_action( 'pre_get_posts', 'cc_sort_sections_by_assigned_page_title' );
+add_action( 'pre_get_posts', 'cc_sort_sections_by_parent_title' );
 
 // Add a dropdown filter at the top of the page_sections list table
 
