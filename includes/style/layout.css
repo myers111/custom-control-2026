@@ -90,7 +90,12 @@ div.content ul {
     border-top: 1px solid red;
 }
 
-.section-row div {
+.section-row .section-main-content {
+    display: flex;
+    gap: 24px;
+}
+
+.section-row .section-main-content div {
     display: flex;
 }
 

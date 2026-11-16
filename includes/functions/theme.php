@@ -34,3 +34,40 @@ function cc_theme_setup_features() {
     add_editor_style( 'style-editor.css' ); 
 }
 add_action( 'after_setup_theme', 'cc_theme_setup_features' );
+
+function cc_create_section_post_type() {
+    
+    $labels = array(
+        'name'               => _x( 'Page Sections', 'post type general name' ),
+        'singular_name'      => _x( 'Page Section', 'post type singular name' ),
+        'menu_name'          => _x( 'Page Sections', 'admin menu' ),
+        'name_admin_bar'     => _x( 'Page Section', 'add new on admin bar' ),
+        'add_new'            => _x( 'Add New', 'section' ),
+        'add_new_item'       => __( 'Add New Section' ),
+        'new_item'           => __( 'New Section' ),
+        'edit_item'          => __( 'Edit Section' ),
+        'view_item'          => __( 'View Section' ),
+        'all_items'          => __( 'All Sections' ),
+        'search_items'       => __( 'Search Sections' ),
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => array( 'slug' => 'sections' ),
+        'capability_type'    => 'post',
+        'has_archive'        => false,
+        'hierarchical'       => true, // Allows parent-child relationships
+        'menu_position'      => 20,
+        'menu_icon'          => 'dashicons-layout', // Layout icon in admin dashboard
+        'show_in_rest'       => true, // Enables Gutenberg editor if desired
+        'supports'           => array( 'title', 'editor', 'thumbnail', 'page-attributes' ) // page-attributes allows ordering
+    );
+
+    register_post_type( 'page_sections', $args );
+}
+add_action( 'init', 'cc_create_section_post_type' );
