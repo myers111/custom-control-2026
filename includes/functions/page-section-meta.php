@@ -43,109 +43,6 @@ function cc_render_section_page_assignment_box( $post ) {
     ) );
 }
 
-// Intercept post saving to enforce either a Parent OR an Assigned Page
-
-function cc_enforce_section_page_or_parent( $data, $postarr ) {
-
-    // Only run on our custom post type
-
-    if ( $data['post_type'] !== 'page_sections' ) {
-
-        return $data;
-    }
-
-    // Ignore auto-drafts, trash, or revisions
-
-    if ( in_array( $data['post_status'], array( 'auto-draft', 'trash', 'inherit' ), true ) ) {
-
-        return $data;
-    }
-
-    // Check if a Parent Section is selected (post_parent > 0)
-
-    $has_parent = ! empty( $postarr['post_parent'] ) && intval( $postarr['post_parent'] ) > 0;
-
-    // Check if our custom meta box dropdown has a Page selected
-
-    $has_assigned_page = isset( $_POST['assigned_page_id'] ) && ! empty( $_POST['assigned_page_id'] ) && intval( $_POST['assigned_page_id'] ) > 0;
-
-    // If trying to publish (or keep published) and BOTH are missing
-
-    if ( $data['post_status'] === 'publish' && ! $has_parent && ! $has_assigned_page ) {
-
-        // Revert status to draft so it doesn't go live unattached
-
-        $data['post_status'] = 'draft';
-   }
-
-    return $data;
-}
-add_filter( 'wp_insert_post_data', 'cc_enforce_section_page_or_parent', 10, 2 );
-
-// Display an admin notice if validation failed
-/*
-function cc_show_section_validation_admin_notice() {
-
-    $user_id = get_current_user_id();
-
-    if ( get_transient( 'section_validation_error_' . $user_id ) ) {
-
-        delete_transient( 'section_validation_error_' . $user_id );
-        ?>
-        <div class="notice notice-error is-dismissible">
-            <p><strong>Publication Blocked:</strong> A Page Section must either be assigned to a Page or have a Parent Section selected. Your section has been saved as a <strong>Draft</strong>.</p>
-        </div>
-        <?php
-    }
-}
-add_action( 'admin_notices', 'cc_show_section_validation_admin_notice' );
-*/
-add_action( 'enqueue_block_editor_assets', function() {
-
-    global $post;
-
-    // Only load this script on your specific custom post type
-
-    if ( ! $post || $post->post_type !== 'page_sections' )  return;
-
-    $script = "
-        ( function( wp ) {
-            const { select, dispatch, subscribe } = wp.data;
-            let wasSaving = false;
-
-            subscribe( () => {
-                const isSaving = select( 'core/editor' ).isSavingPost();
-                const isAutosaving = select( 'core/editor' ).isAutosavingPost();
-
-                // Detect when a manual save just finished
-                if ( wasSaving && ! isSaving && ! isAutosaving ) {
-                    const didSucceed = select( 'core/editor' ).didPostSaveRequestSucceed();
-
-                    if ( didSucceed ) {
-                        dispatch( 'core/notices' ).createNotice(
-                            'success', // Options: 'success', 'info', 'warning', 'error'
-                            'Your custom post has been saved!',
-                            {
-                                id: 'my-cpt-save-notice', // Prevents duplicate notices
-                                isDismissible: true,
-                                // type: 'snackbar', // Uncomment to show as a bottom-left toast instead of a top banner
-                            }
-                        );
-                    }
-                }
-
-                wasSaving = isSaving;
-            } );
-        } )( window.wp );
-    ";
-
-    // Register a dummy handle to attach our inline script with required Gutenberg dependencies
-
-    wp_register_script( 'my-cpt-editor-notices', '', [ 'wp-data', 'wp-editor', 'wp-notices' ], false, true );
-    wp_enqueue_script( 'my-cpt-editor-notices' );
-    wp_add_inline_script( 'my-cpt-editor-notices', $script );
-});
-
 // Save the Selected Page ID when the Custom Post is saved
 
 function cc_save_section_page_assignment_meta( $post_id ) {
@@ -202,8 +99,6 @@ function cc_save_section_page_assignment_meta( $post_id ) {
         $page_id = get_post_meta( $the_post_id, '_assigned_page_id', true );
     }
 
-    delete_post_meta( $post_id, '_display_page_id' );
-
     if ( $page_id ) {
 
         update_post_meta( $post_id, '_page_id', $page_id );
@@ -215,6 +110,8 @@ function cc_save_section_page_assignment_meta( $post_id ) {
 }
 add_action( 'save_post_page_sections', 'cc_save_section_page_assignment_meta' );
 
+// Enqueue the JavaScript for the admin screen to disable the publish buttons
+
 function cc_enqueue_section_admin_scripts( $hook ) {
 
     global $post_type;
@@ -224,9 +121,9 @@ function cc_enqueue_section_admin_scripts( $hook ) {
     if ( ( $hook === 'post.php' || $hook === 'post-new.php' ) && $post_type === 'page_sections' ) {
         wp_enqueue_script(
             'section-admin-toggle',
-            get_template_directory_uri() . '/js/section-admin.js',
+            get_template_directory_uri() . '/includes/js/section-admin.js',
             array( 'jquery' ),
-            '1.0',
+            '1.1',
             true
         );
     }

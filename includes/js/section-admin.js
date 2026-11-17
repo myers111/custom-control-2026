@@ -1,9 +1,8 @@
 jQuery(document).ready(function($) {
     var $pageMetaBox = $('#section_page_assignment');
     var $pageSelect  = $('select[name="assigned_page_id"]');
-    var lockKey      = 'section-requires-page-or-parent';
+    var noticeId     = 'section-requires-page-or-parent';
 
-    // Helper: Toggle meta box visibility when a parent is selected
     function togglePageAssignment(hasParent) {
         if (hasParent) {
             $pageSelect.val('');
@@ -13,7 +12,6 @@ jQuery(document).ready(function($) {
         }
     }
 
-    // Helper: Check if either Parent OR Assigned Page is selected
     function hasValidAttachment(hasParent) {
         var hasPage = $pageSelect.val() !== '' && $pageSelect.val() !== null;
         return hasParent || hasPage;
@@ -39,10 +37,7 @@ jQuery(document).ready(function($) {
     }
 
     if ($classicParentSelect.length) {
-        // Run immediately on page load
         validateClassicEditor();
-
-        // Watch both dropdowns for changes
         $classicParentSelect.on('change', validateClassicEditor);
         $pageSelect.on('change', validateClassicEditor);
     }
@@ -52,28 +47,40 @@ jQuery(document).ready(function($) {
     // =========================================================
     if (typeof wp !== 'undefined' && wp.data && wp.data.subscribe) {
         var lastParentId = null;
+        var isCurrentlyValid = true;
 
-        function validateBlockEditor(currentParentId) {
-            var hasParent = currentParentId > 0;
-            var isValid   = hasValidAttachment(hasParent);
-
+        function setPublishButtonState(isValid) {
+            // Strictly target ONLY the Publish / Update buttons, never Save Draft
+            var $publishButtons = $('.editor-post-publish-panel__toggle, .editor-post-publish-button').not('.editor-post-save-draft');
+            
             if (isValid) {
-                wp.data.dispatch('core/editor').unlockPostSaving(lockKey);
-                wp.data.dispatch('core/notices').removeNotice(lockKey);
+                $publishButtons.prop('disabled', false).css({
+                    'pointer-events': '',
+                    'opacity': ''
+                });
+                wp.data.dispatch('core/notices').removeNotice(noticeId);
             } else {
-                wp.data.dispatch('core/editor').lockPostSaving(lockKey);
+                $publishButtons.prop('disabled', true).css({
+                    'pointer-events': 'none',
+                    'opacity': '0.5'
+                });
                 wp.data.dispatch('core/notices').createNotice(
                     'warning',
-                    'Please select an Assigned Page or a Parent Section to enable publishing.',
+                    'Select an Assigned Page or a Parent Section to publish. Save Draft remains available once you enter a title or content.',
                     {
-                        id: lockKey,
+                        id: noticeId,
                         isDismissible: false
                     }
                 );
             }
         }
 
-        // Watch Gutenberg store for Parent changes
+        function validateBlockEditor(currentParentId) {
+            var hasParent = currentParentId > 0;
+            isCurrentlyValid = hasValidAttachment(hasParent);
+            setPublishButtonState(isCurrentlyValid);
+        }
+
         wp.data.subscribe(function() {
             var editor = wp.data.select('core/editor');
             if (!editor) return;
@@ -84,10 +91,17 @@ jQuery(document).ready(function($) {
                 lastParentId = currentParentId;
                 togglePageAssignment(currentParentId > 0);
                 validateBlockEditor(currentParentId);
+            } else if (!isCurrentlyValid) {
+                $('.editor-post-publish-panel__toggle, .editor-post-publish-button')
+                    .not('.editor-post-save-draft')
+                    .prop('disabled', true)
+                    .css({
+                        'pointer-events': 'none',
+                        'opacity': '0.5'
+                    });
             }
         });
 
-        // Watch the custom Page dropdown for changes
         $pageSelect.on('change', function() {
             var editor = wp.data.select('core/editor');
             var currentParentId = editor ? editor.getEditedPostAttribute('parent') : 0;
